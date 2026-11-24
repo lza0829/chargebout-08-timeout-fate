@@ -18,6 +18,7 @@ export default function Sessions() {
               <th>会话号</th>
               <th>站点桩位</th>
               <th>状态</th>
+              <th>超时</th>
               <th>电量</th>
               <th>金额</th>
               <th>营业日</th>
@@ -33,6 +34,13 @@ export default function Sessions() {
                 </td>
                 <td>
                   <span className={`tag ${s.status}`}>{s.status}</span>
+                </td>
+                <td>
+                  {s.timeout_flag ? (
+                    <span className="tag 已超时">超时加收{s.surcharge}</span>
+                  ) : (
+                    '—'
+                  )}
                 </td>
                 <td>{s.kwh}</td>
                 <td>{s.amount}</td>
@@ -54,7 +62,15 @@ export default function Sessions() {
           </h3>
           <p>
             锁定电价 {detail.price_locked} · 电量 {detail.kwh} · 金额 {detail.amount}
+            {detail.timeout_flag ? ` · 含超时加收 ${detail.surcharge}` : ''}
+            {' · '}占用中 {String(detail.占用中)} · 结算可点 {String(detail.结算可点)}
           </p>
+          {detail.超时回执 && (
+            <p className="lead">
+              超时回执：阈值 {detail.超时回执.threshold_minutes} 分，已超{' '}
+              {detail.超时回执.elapsed_minutes} 分，规则 {detail.超时回执.rule_note}
+            </p>
+          )}
           <h3>脉冲</h3>
           <table>
             <thead>

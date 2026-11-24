@@ -22,7 +22,7 @@ export default function Settings() {
   return (
     <div className="page">
       <h2>设置</h2>
-      <p className="lead">超时分钟、脉冲默认电量等键值。</p>
+      <p className="lead">超时分钟、超时加收比例、脉冲默认电量等键值。超时分钟为强制关账阈值。</p>
       <div className="panel">
         <table>
           <thead>

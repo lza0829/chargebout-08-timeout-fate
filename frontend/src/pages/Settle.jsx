@@ -5,9 +5,7 @@ export default function Settle() {
   const [list, setList] = useState([])
   const [msg, setMsg] = useState('')
   const load = () =>
-    Promise.all([api.会话('充电中'), api.会话('已超时'), api.会话('结算中')]).then(
-      ([a, b, c]) => setList([...a, ...b, ...c]),
-    )
+    Promise.all([api.会话('充电中'), api.会话('结算中')]).then(([a, c]) => setList([...a, ...c]))
   useEffect(() => {
     load()
   }, [])
@@ -24,7 +22,9 @@ export default function Settle() {
   return (
     <div className="page">
       <h2>结算关账</h2>
-      <p className="lead">按锁定电价与累计电量关账，释放桩位与枪线。</p>
+      <p className="lead">
+        按锁定电价与累计电量关账，释放桩位与枪线。已超时会话由超时流程强制关账，不在此列。
+      </p>
       <div className="panel">
         <table>
           <thead>

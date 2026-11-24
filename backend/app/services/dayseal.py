@@ -8,7 +8,11 @@ def get_day(conn, day: str | None = None) -> dict:
     d = day or today()
     r = conn.execute("SELECT * FROM day_seals WHERE business_day=?", (d,)).fetchone()
     open_n = conn.execute(
-        "SELECT COUNT(*) AS n FROM sessions WHERE business_day=? AND status IN ('充电中','结算中','已超时')",
+        "SELECT COUNT(*) AS n FROM sessions WHERE business_day=? AND status IN ('充电中','结算中')",
+        (d,),
+    ).fetchone()["n"]
+    timeout_n = conn.execute(
+        "SELECT COUNT(*) AS n FROM sessions WHERE business_day=? AND timeout_flag=1 AND status='已关账'",
         (d,),
     ).fetchone()["n"]
     return {
@@ -17,6 +21,7 @@ def get_day(conn, day: str | None = None) -> dict:
         "封印时间": r["sealed_at"] if r else None,
         "备注": r["note"] if r else "",
         "未结会话数": open_n,
+        "本日已超时关账": timeout_n,
     }
 
 

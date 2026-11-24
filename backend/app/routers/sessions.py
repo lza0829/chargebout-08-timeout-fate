@@ -23,9 +23,33 @@ class AbortIn(BaseModel):
 
 
 @router.get("/会话")
-def list_sessions(状态: str | None = None):
+def list_sessions(状态: str | None = None, 超时: bool = False):
     with db() as conn:
-        return core.list_sessions(conn, 状态)
+        return core.list_sessions(conn, 状态, timeout_only=超时)
+
+
+@router.get("/超时/候选")
+def timeout_candidates():
+    with db() as conn:
+        return svc.list_timeout_candidates(conn)
+
+
+@router.get("/超时/回执")
+def timeout_receipts():
+    with db() as conn:
+        return core.list_timeout_records(conn)
+
+
+@router.post("/超时/扫描")
+def timeout_scan():
+    with db() as conn:
+        return svc.scan_timeouts(conn)
+
+
+@router.get("/会话/{session_id}/超时/重放")
+def replay_timeout(session_id: int):
+    with db() as conn:
+        return svc.replay_timeout(conn, session_id)
 
 
 @router.get("/会话/{session_id}")

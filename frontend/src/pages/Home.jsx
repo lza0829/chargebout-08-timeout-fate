@@ -25,12 +25,15 @@ export default function Home() {
     ['已中断', o.已中断],
     ['在充电量', o.在充电量],
     ['本日关账金额', o.本日关账金额],
+    ['本日已超时', o.本日已超时],
+    ['本日超时加收', o.本日超时加收],
+    ['超时占用残留', o.超时占用残留],
   ]
   return (
     <div className="page">
       <h2>总览</h2>
       <p className="lead">
-        营业日 {o.营业日} · 充日{o.充日已封印 ? '已封印' : '未封印'}
+        营业日 {o.营业日} · 充日{o.充日已封印 ? '已封印' : '未封印'} · 超时口径 {o.超时口径}
       </p>
       <div className="grid">
         {items.map(([k, v]) => (
@@ -40,6 +43,9 @@ export default function Home() {
           </div>
         ))}
       </div>
+      <p className="lead">
+        「已超时」= 标超时且已强制关账（交叉桶）；「超时占用残留」不为 0 即为异常。
+      </p>
       <button type="button" onClick={load}>刷新</button>
       <p className="msg">{err}</p>
     </div>

@@ -9,5 +9,8 @@ DB_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 PILE_STATUSES = ("空闲", "占用", "故障", "维护")
 GUN_STATUSES = ("可用", "占用", "故障")
-SESSION_STATUSES = ("充电中", "结算中", "已关账", "已超时", "已中断")
+# 超时架构：标超时=同笔强制关账并加收，故不存在持久化的「已超时」状态。
+# 已超时仅作为总览上的交叉桶（timeout_flag=1 且 status=已关账）。
+SESSION_STATUSES = ("充电中", "结算中", "已关账", "已中断")
+TIMEOUT_CLOSED_STATUS = "已关账"
 OPEN_SESSIONS = ("充电中", "结算中")

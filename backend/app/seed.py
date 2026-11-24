@@ -10,6 +10,7 @@ def seed_if_empty() -> None:
         if n:
             return
         set_setting(conn, "超时分钟", "120")
+        set_setting(conn, "超时加收比例", "0.5")
         set_setting(conn, "会话序号", "1000")
         set_setting(conn, "脉冲默认电量", "1.5")
         conn.execute(
